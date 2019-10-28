@@ -45,7 +45,7 @@ func (t *ExampleTable) Name() string {
 func (t *ExampleTable) Schema() string {
 
 	sql := `CREATE TABLE %s (
-		id INTEGER NOT NULL PRIMARY KEY,
+		id INTEGER NOT NULL,
 		body TEXT
 	);`
 
@@ -77,7 +77,7 @@ func (t *ExampleTable) IndexRecord(db sqlite.Database, i interface{}) error {
 		return err
 	}
 
-	id := "FIX ME"
+	id := -1
 	body := string(b)
 
 	sql := fmt.Sprintf(`INSERT OR REPLACE INTO %s (

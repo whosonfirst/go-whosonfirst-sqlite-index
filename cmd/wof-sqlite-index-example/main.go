@@ -15,21 +15,11 @@ import (
 	"io"
 	"os"
 	"strings"
+	"time"
 )
 
-// THIS IS A TOTAL HACK UNTIL WE CAN SORT THINGS OUT IN
-// go-whosonfirst-index... (20180206/thisisaaronland)
-
-type Closer struct {
-	fh io.Reader
-}
-
-func (c Closer) Read(b []byte) (int, error) {
-	return c.fh.Read(b)
-}
-
-func (c Closer) Close() error {
-	return nil
+type Example struct {
+	Time int64 `json:"time"`
 }
 
 func main() {
@@ -81,11 +71,13 @@ func main() {
 
 	cb := func(ctx context.Context, fh io.Reader, args ...interface{}) (interface{}, error) {
 
-		return fh, nil
+		now := time.Now()
+		
+		e := Example{
+			Time: now.Unix(),
+		}
 
-		// HACK - see above
-		// closer := Closer{fh}
-		// return Closer
+		return e, nil
 	}
 
 	idx, err := index.NewSQLiteIndexer(db, to_index, cb)
