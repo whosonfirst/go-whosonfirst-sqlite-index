@@ -5,6 +5,8 @@ import (
 	"flag"
 	"fmt"
 	wof_index "github.com/whosonfirst/go-whosonfirst-index"
+	_ "github.com/whosonfirst/go-whosonfirst-index-sqlite"
+	_ "github.com/whosonfirst/go-whosonfirst-index-csv"	
 	"github.com/whosonfirst/go-whosonfirst-log"
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
 	"github.com/whosonfirst/go-whosonfirst-sqlite-index"
@@ -12,7 +14,6 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-sqlite/tables"
 	"io"
 	"os"
-	"runtime"
 	"strings"
 )
 
@@ -41,14 +42,10 @@ func main() {
 	dsn := flag.String("dsn", ":memory:", "")
 	driver := flag.String("driver", "sqlite3", "")
 
-	live_hard := flag.Bool("live-hard-die-fast", false, "Enable various performance-related pragmas at the expense of possible (unlikely) database corruption")
+	live_hard := flag.Bool("live-hard-die-fast", true, "Enable various performance-related pragmas at the expense of possible (unlikely) database corruption")
 	timings := flag.Bool("timings", false, "Display timings during and after indexing")
 
-	var procs = flag.Int("processes", (runtime.NumCPU() * 2), "The number of concurrent processes to index data with")
-
 	flag.Parse()
-
-	runtime.GOMAXPROCS(*procs)
 
 	logger := log.SimpleWOFLogger()
 
