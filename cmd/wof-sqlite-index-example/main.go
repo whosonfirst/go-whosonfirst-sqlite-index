@@ -74,7 +74,7 @@ func main() {
 	ex, err := tables.NewExampleTableWithDatabase(db)
 
 	if err != nil {
-		logger.Fatal("failed to create 'geojson' table because %s", err)
+		logger.Fatal("failed to create 'example' table because '%s'", err)
 	}
 
 	to_index = append(to_index, ex)
