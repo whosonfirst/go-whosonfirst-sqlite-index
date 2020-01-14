@@ -1,4 +1,4 @@
-# github.com/mattn/go-sqlite3 v1.11.0
+# github.com/mattn/go-sqlite3 v2.0.2+incompatible
 github.com/mattn/go-sqlite3
 # github.com/whosonfirst/go-spatialite v0.1.0
 github.com/whosonfirst/go-spatialite
@@ -9,16 +9,16 @@ github.com/whosonfirst/go-whosonfirst-csv
 # github.com/whosonfirst/go-whosonfirst-flags v0.1.0
 github.com/whosonfirst/go-whosonfirst-flags/existential
 github.com/whosonfirst/go-whosonfirst-flags
-# github.com/whosonfirst/go-whosonfirst-index v0.2.2
+# github.com/whosonfirst/go-whosonfirst-index v0.2.3
 github.com/whosonfirst/go-whosonfirst-index
 github.com/whosonfirst/go-whosonfirst-index/fs
 # github.com/whosonfirst/go-whosonfirst-index-csv v0.0.0-20191002171239-c6712fe20972
 github.com/whosonfirst/go-whosonfirst-index-csv
-# github.com/whosonfirst/go-whosonfirst-index-sqlite v0.0.2
+# github.com/whosonfirst/go-whosonfirst-index-sqlite v0.0.3
 github.com/whosonfirst/go-whosonfirst-index-sqlite
 # github.com/whosonfirst/go-whosonfirst-log v0.1.0
 github.com/whosonfirst/go-whosonfirst-log
-# github.com/whosonfirst/go-whosonfirst-sqlite v0.1.3
+# github.com/whosonfirst/go-whosonfirst-sqlite v0.1.5
 github.com/whosonfirst/go-whosonfirst-sqlite
 github.com/whosonfirst/go-whosonfirst-sqlite/database
 github.com/whosonfirst/go-whosonfirst-sqlite/tables
