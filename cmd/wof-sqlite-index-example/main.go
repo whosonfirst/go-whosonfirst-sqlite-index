@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 	wof_index "github.com/whosonfirst/go-whosonfirst-index"
+	_ "github.com/whosonfirst/go-whosonfirst-index-csv"
 	_ "github.com/whosonfirst/go-whosonfirst-index-sqlite"
-	_ "github.com/whosonfirst/go-whosonfirst-index-csv"	
 	"github.com/whosonfirst/go-whosonfirst-log"
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
 	"github.com/whosonfirst/go-whosonfirst-sqlite-index"
@@ -72,7 +72,7 @@ func main() {
 	cb := func(ctx context.Context, fh io.Reader, args ...interface{}) (interface{}, error) {
 
 		now := time.Now()
-		
+
 		e := Example{
 			Time: now.Unix(),
 		}
@@ -80,7 +80,13 @@ func main() {
 		return e, nil
 	}
 
-	idx, err := index.NewSQLiteIndexer(db, to_index, cb)
+	idx_opts := &index.SQLiteIndexerOptions{
+		DB: db,
+		Tables: to_index,
+		Callback: cb,
+	}
+	
+	idx, err := index.NewSQLiteIndexer(idx_opts)
 
 	if err != nil {
 		logger.Fatal("failed to create sqlite indexer because %s", err)

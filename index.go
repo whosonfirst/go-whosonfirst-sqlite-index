@@ -2,9 +2,15 @@ package index
 
 import (
 	"context"
+	"fmt"
+	"github.com/whosonfirst/go-reader"
+	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
+	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
 	wof_index "github.com/whosonfirst/go-whosonfirst-index"
 	"github.com/whosonfirst/go-whosonfirst-log"
+	wof_reader "github.com/whosonfirst/go-whosonfirst-reader"
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
+	wof_tables "github.com/whosonfirst/go-whosonfirst-sqlite-features/tables"
 	"io"
 	"sync"
 	"sync/atomic"
@@ -21,7 +27,19 @@ type SQLiteIndexer struct {
 	Logger        *log.WOFLogger
 }
 
-func NewSQLiteIndexer(db sqlite.Database, tables []sqlite.Table, callback SQLiteIndexerFunc) (*SQLiteIndexer, error) {
+type SQLiteIndexerOptions struct {
+	DB              sqlite.Database
+	Tables          []sqlite.Table
+	Callback        SQLiteIndexerFunc
+	IndexBelongsTo  bool
+	BelongsToReader reader.Reader
+}
+
+func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
+
+	db := opts.DB
+	tables := opts.Tables
+	callback := opts.Callback
 
 	table_timings := make(map[string]time.Duration)
 	mu := new(sync.RWMutex)
@@ -77,6 +95,63 @@ func NewSQLiteIndexer(db sqlite.Database, tables []sqlite.Table, callback SQLite
 			}
 
 			mu.Unlock()
+		}
+
+		if opts.IndexBelongsTo {
+
+			geojson_t, err := wof_tables.NewGeoJSONTable()
+
+			if err != nil {
+				return err
+			}
+
+			conn, err := db.Conn()
+
+			if err != nil {
+				return err
+			}
+
+			f := record.(geojson.Feature)
+			belongsto := whosonfirst.BelongsTo(f)
+
+			to_index := make([]geojson.Feature, 0)
+
+			for _, id := range belongsto {
+
+				sql := fmt.Sprintf("SELECT COUNT(id) FROM %s WHERE id=?", geojson_t.Name())
+				row := conn.QueryRow(sql, id)
+
+				var count int
+				err = row.Scan(&count)
+
+				if err != nil {
+					return err
+				}
+
+				if count == 0 {
+
+					ancestor, err := wof_reader.LoadFeatureFromID(ctx, opts.BelongsToReader, id)
+
+					if err != nil {
+						return err
+					}
+
+					to_index = append(to_index, ancestor)
+				}
+			}
+
+			for _, record := range to_index {
+
+				for _, t := range tables {
+
+					err = t.IndexRecord(db, record)
+
+					if err != nil {
+						return err
+					}
+				}
+			}
+
 		}
 
 		return nil
