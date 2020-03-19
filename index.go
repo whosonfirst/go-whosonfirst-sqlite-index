@@ -2,22 +2,18 @@ package index
 
 import (
 	"context"
-	"fmt"
-	"github.com/whosonfirst/go-reader"
-	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
-	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
 	wof_index "github.com/whosonfirst/go-whosonfirst-index"
 	"github.com/whosonfirst/go-whosonfirst-log"
-	wof_reader "github.com/whosonfirst/go-whosonfirst-reader"
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
-	wof_tables "github.com/whosonfirst/go-whosonfirst-sqlite-features/tables"
 	"io"
 	"sync"
 	"sync/atomic"
 	"time"
 )
 
-type SQLiteIndexerFunc func(context.Context, io.Reader, ...interface{}) (interface{}, error)
+type SQLiteIndexerPostIndexFunc func(context.Context, sqlite.Database, []sqlite.Table, interface{}) error
+
+type SQLiteIndexerLoadRecordFunc func(context.Context, io.Reader, ...interface{}) (interface{}, error)
 
 type SQLiteIndexer struct {
 	callback      wof_index.IndexerFunc
@@ -28,18 +24,17 @@ type SQLiteIndexer struct {
 }
 
 type SQLiteIndexerOptions struct {
-	DB              sqlite.Database
-	Tables          []sqlite.Table
-	Callback        SQLiteIndexerFunc
-	IndexBelongsTo  bool
-	BelongsToReader reader.Reader
+	DB             sqlite.Database
+	Tables         []sqlite.Table
+	LoadRecordFunc SQLiteIndexerLoadRecordFunc
+	PostIndexFunc  SQLiteIndexerPostIndexFunc
 }
 
 func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 
 	db := opts.DB
 	tables := opts.Tables
-	callback := opts.Callback
+	record_func := opts.LoadRecordFunc
 
 	table_timings := make(map[string]time.Duration)
 	mu := new(sync.RWMutex)
@@ -54,7 +49,7 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 			return err
 		}
 
-		record, err := callback(ctx, fh, args...)
+		record, err := record_func(ctx, fh, args...)
 
 		if err != nil {
 			logger.Warning("failed to load record (%s) because %s", path, err)
@@ -97,61 +92,13 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 			mu.Unlock()
 		}
 
-		if opts.IndexBelongsTo {
+		if opts.PostIndexFunc != nil {
 
-			geojson_t, err := wof_tables.NewGeoJSONTable()
-
-			if err != nil {
-				return err
-			}
-
-			conn, err := db.Conn()
+			err := opts.PostIndexFunc(ctx, db, tables, record)
 
 			if err != nil {
 				return err
 			}
-
-			f := record.(geojson.Feature)
-			belongsto := whosonfirst.BelongsTo(f)
-
-			to_index := make([]geojson.Feature, 0)
-
-			for _, id := range belongsto {
-
-				sql := fmt.Sprintf("SELECT COUNT(id) FROM %s WHERE id=?", geojson_t.Name())
-				row := conn.QueryRow(sql, id)
-
-				var count int
-				err = row.Scan(&count)
-
-				if err != nil {
-					return err
-				}
-
-				if count == 0 {
-
-					ancestor, err := wof_reader.LoadFeatureFromID(ctx, opts.BelongsToReader, id)
-
-					if err != nil {
-						return err
-					}
-
-					to_index = append(to_index, ancestor)
-				}
-			}
-
-			for _, record := range to_index {
-
-				for _, t := range tables {
-
-					err = t.IndexRecord(db, record)
-
-					if err != nil {
-						return err
-					}
-				}
-			}
-
 		}
 
 		return nil

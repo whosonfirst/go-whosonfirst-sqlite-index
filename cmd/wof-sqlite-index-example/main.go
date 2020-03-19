@@ -12,8 +12,6 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-sqlite-index"
 	"github.com/whosonfirst/go-whosonfirst-sqlite/database"
 	"github.com/whosonfirst/go-whosonfirst-sqlite/tables"
-	"github.com/whosonfirst/go-reader"
-	_ "github.com/whosonfirst/go-reader-http"	
 	"io"
 	"os"
 	"strings"
@@ -37,13 +35,10 @@ func main() {
 	live_hard := flag.Bool("live-hard-die-fast", true, "Enable various performance-related pragmas at the expense of possible (unlikely) database corruption")
 	timings := flag.Bool("timings", false, "Display timings during and after indexing")
 
-	index_belongsto := flag.Bool("index-belongs-to", false, "Index wof:belongsto records for each feature")
-	belongsto_reader_uri := flag.String("belongs-to-uri", "", "A valid whosonfirst/go-reader Reader URI for reading wof:belongsto records")
+	post_index := flag.Bool("post-index", false, "Enable post indexing callback function")
 
 	flag.Parse()
 
-	ctx := context.Background()
-	
 	logger := log.SimpleWOFLogger()
 
 	stdout := io.Writer(os.Stdout)
@@ -76,7 +71,7 @@ func main() {
 
 	to_index = append(to_index, ex)
 
-	cb := func(ctx context.Context, fh io.Reader, args ...interface{}) (interface{}, error) {
+	record_func := func(ctx context.Context, fh io.Reader, args ...interface{}) (interface{}, error) {
 
 		now := time.Now()
 
@@ -88,23 +83,21 @@ func main() {
 	}
 
 	idx_opts := &index.SQLiteIndexerOptions{
-		DB: db,
-		Tables: to_index,
-		Callback: cb,
+		DB:             db,
+		Tables:         to_index,
+		LoadRecordFunc: record_func,
 	}
 
-	if *index_belongsto {
+	if *post_index {
 
-		r, err := reader.NewReader(ctx, *belongsto_reader_uri)
-
-		if err != nil {
-			logger.Fatal("Failed to create Reader (%s), %v", *belongsto_reader_uri, err)
+		post_func := func(ctx context.Context, db sqlite.Database, tables []sqlite.Table, record interface{}) error {
+			logger.Status("Post index func w/ %v", record)
+			return nil
 		}
 
-		idx_opts.IndexBelongsTo = true
-		idx_opts.BelongsToReader = r
+		idx_opts.PostIndexFunc = post_func
 	}
-	
+
 	idx, err := index.NewSQLiteIndexer(idx_opts)
 
 	if err != nil {
