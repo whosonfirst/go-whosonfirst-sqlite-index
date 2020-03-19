@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/whosonfirst/go-reader v0.1.1
+	github.com/whosonfirst/go-reader-http v0.0.2
 	github.com/whosonfirst/go-whosonfirst-geojson-v2 v0.12.2
 	github.com/whosonfirst/go-whosonfirst-index v0.2.3
 	github.com/whosonfirst/go-whosonfirst-index-csv v0.0.0-20191002171239-c6712fe20972

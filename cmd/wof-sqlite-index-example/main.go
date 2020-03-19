@@ -12,6 +12,8 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-sqlite-index"
 	"github.com/whosonfirst/go-whosonfirst-sqlite/database"
 	"github.com/whosonfirst/go-whosonfirst-sqlite/tables"
+	"github.com/whosonfirst/go-reader"
+	_ "github.com/whosonfirst/go-reader-http"	
 	"io"
 	"os"
 	"strings"
@@ -35,8 +37,13 @@ func main() {
 	live_hard := flag.Bool("live-hard-die-fast", true, "Enable various performance-related pragmas at the expense of possible (unlikely) database corruption")
 	timings := flag.Bool("timings", false, "Display timings during and after indexing")
 
+	index_belongsto := flag.Bool("index-belongs-to", false, "Index wof:belongsto records for each feature")
+	belongsto_reader_uri := flag.String("belongs-to-uri", "", "A valid whosonfirst/go-reader Reader URI for reading wof:belongsto records")
+
 	flag.Parse()
 
+	ctx := context.Background()
+	
 	logger := log.SimpleWOFLogger()
 
 	stdout := io.Writer(os.Stdout)
@@ -84,6 +91,18 @@ func main() {
 		DB: db,
 		Tables: to_index,
 		Callback: cb,
+	}
+
+	if *index_belongsto {
+
+		r, err := reader.NewReader(ctx, *belongsto_reader_uri)
+
+		if err != nil {
+			logger.Fatal("Failed to create Reader (%s), %v", *belongsto_reader_uri, err)
+		}
+
+		idx_opts.IndexBelongsTo = true
+		idx_opts.BelongsToReader = r
 	}
 	
 	idx, err := index.NewSQLiteIndexer(idx_opts)
