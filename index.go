@@ -2,8 +2,8 @@ package index
 
 import (
 	"context"
-	"github.com/whosonfirst/go-whosonfirst-index/v2/emitter"	
-	"github.com/whosonfirst/go-whosonfirst-index/v2/indexer"
+	"github.com/whosonfirst/go-whosonfirst-iterate/emitter"
+	"github.com/whosonfirst/go-whosonfirst-iterate/iterator"
 	"github.com/whosonfirst/go-whosonfirst-log"
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
 	"io"
@@ -14,7 +14,7 @@ import (
 
 type SQLiteIndexerPostIndexFunc func(context.Context, sqlite.Database, []sqlite.Table, interface{}) error
 
-type SQLiteIndexerLoadRecordFunc func(context.Context, io.ReadSeekCloser, ...interface{}) (interface{}, error)
+type SQLiteIndexerLoadRecordFunc func(context.Context, io.ReadSeeker, ...interface{}) (interface{}, error)
 
 type SQLiteIndexer struct {
 	callback      emitter.EmitterCallbackFunc
@@ -42,7 +42,7 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 
 	logger := log.SimpleWOFLogger()
 
-	emitter_cb := func(ctx context.Context, fh io.ReadSeekCloser, args ...interface{}) error {
+	emitter_cb := func(ctx context.Context, fh io.ReadSeeker, args ...interface{}) error {
 
 		path, err := emitter.PathForContext(ctx)
 
@@ -116,9 +116,9 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 	return &i, nil
 }
 
-func (idx *SQLiteIndexer) IndexPaths(ctx context.Context, emitter_uri string, paths []string) error {
+func (idx *SQLiteIndexer) IndexPaths(ctx context.Context, emitter_uri string, uris []string) error {
 
-	indexer, err := indexer.NewIndexer(ctx, emitter_uri, idx.callback)
+	iter, err := iterator.NewIterator(ctx, emitter_uri, idx.callback)
 
 	if err != nil {
 		return err
@@ -135,7 +135,7 @@ func (idx *SQLiteIndexer) IndexPaths(ctx context.Context, emitter_uri string, pa
 
 		t2 := time.Since(t1)
 
-		i := atomic.LoadInt64(&indexer.Indexed) // please just make this part of go-whosonfirst-index
+		i := atomic.LoadInt64(&iter.Seen)
 
 		idx.mu.RLock()
 		defer idx.mu.RUnlock()
@@ -167,7 +167,7 @@ func (idx *SQLiteIndexer) IndexPaths(ctx context.Context, emitter_uri string, pa
 		}()
 	}
 
-	err = indexer.Index(ctx, paths...)
+	err = iter.IterateURIs(ctx, uris...)
 
 	if err != nil {
 		return err

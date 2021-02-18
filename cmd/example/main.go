@@ -4,10 +4,10 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/whosonfirst/go-whosonfirst-index/v2/emitter"
+	"github.com/whosonfirst/go-whosonfirst-iterate/emitter"
 	"github.com/whosonfirst/go-whosonfirst-log"
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
-	"github.com/whosonfirst/go-whosonfirst-sqlite-index/v2"
+	"github.com/whosonfirst/go-whosonfirst-sqlite-index"
 	"github.com/whosonfirst/go-whosonfirst-sqlite/database"
 	"github.com/whosonfirst/go-whosonfirst-sqlite/tables"
 	"io"
@@ -69,7 +69,7 @@ func main() {
 
 	to_index = append(to_index, ex)
 
-	record_func := func(ctx context.Context, fh io.ReadSeekCloser, args ...interface{}) (interface{}, error) {
+	record_func := func(ctx context.Context, fh io.ReadSeeker, args ...interface{}) (interface{}, error) {
 
 		now := time.Now()
 
@@ -106,7 +106,7 @@ func main() {
 	idx.Logger = logger
 
 	ctx := context.Background()
-	
+
 	err = idx.IndexPaths(ctx, *emitter_uri, flag.Args())
 
 	if err != nil {
