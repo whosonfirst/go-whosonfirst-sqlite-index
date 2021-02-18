@@ -23,7 +23,7 @@ type Example struct {
 func main() {
 
 	valid_modes := strings.Join(emitter.Schemes(), ",")
-	desc_modes := fmt.Sprintf("The mode to use importing data. Valid modes are: %s.", valid_modes)
+	desc_modes := fmt.Sprintf("A valid whosonfirst/go-whosonfirst-iterate/emitter URI. Valid schemes are: %s.", valid_modes)
 
 	emitter_uri := flag.String("emitter-uri", "repo://", desc_modes)
 

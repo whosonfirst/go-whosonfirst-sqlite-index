@@ -16,14 +16,14 @@ go build -mod vendor -o bin/example cmd/example/main.go
 ### example
 
 ```
-$> ./bin/example -h
+> ./bin/example -h
 Usage of ./bin/example:
   -driver string
     	 (default "sqlite3")
   -dsn string
     	 (default ":memory:")
   -emitter-uri string
-    	The mode to use importing data. Valid modes are: directory://,featurecollection://,file://,filelist://,geojsonl://,repo://. (default "repo://")
+    	A valid whosonfirst/go-whosonfirst-iterate/emitter URI. Valid schemes are: directory://,featurecollection://,file://,filelist://,geojsonl://,repo://. (default "repo://")
   -live-hard-die-fast
     	Enable various performance-related pragmas at the expense of possible (unlikely) database corruption (default true)
   -post-index
@@ -51,4 +51,4 @@ sqlite> SELECT COUNT(id) FROM example;
 ## See also
 
 * https://github.com/whosonfirst/go-whosonfirst-sqlite
-* https://github.com/whosonfirst/go-whosonfirst-iterate-sqlite
+* https://github.com/whosonfirst/go-whosonfirst-iterate
