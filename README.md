@@ -1,22 +1,10 @@
 # go-whosonfirst-sqlite-index
 
-Go package for indexing SQLite databases (using go-whosonfirst-index).
+Go package for creating SQLite databases.
 
 ## Important
 
-This is a "version 2" release and is backwards incompatible with previous versions of this package. If you need to use the older version specify it as follows in your `go.mod` file:
-
-```
-require (
-	github.com/whosonfirst/go-whosonfirst-sqlite-index v0.2.0
-)
-```
-
 Documentation for this package is incomplete and will be updated shortly.
-
-## Dependencies and relationships
-
-These are documented in the [Dependencies and relationships section](https://github.com/whosonfirst/go-whosonfirst-sqlite#dependencies-and-relationships) of the `go-whosonfirst-sqlite` package.
 
 ## Tools
 
@@ -44,6 +32,23 @@ Usage of ./bin/example:
     	Display timings during and after indexing
 ```
 
+For example:
+
+```
+$> ./bin/example -dsn test.db /usr/local/data/sfomuseum-data-architecture/
+2021/02/18 11:34:58 time to index paths (1) 403.514656ms
+
+$> sqlite3  test.db 
+SQLite version 3.28.0 2019-04-15 14:49:49
+Enter ".help" for usage hints.
+sqlite> .tables
+example
+
+sqlite> SELECT COUNT(id) FROM example;
+12751
+```
+
 ## See also
 
 * https://github.com/whosonfirst/go-whosonfirst-sqlite
+* https://github.com/whosonfirst/go-whosonfirst-iterate-sqlite
