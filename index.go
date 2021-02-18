@@ -42,7 +42,7 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 
 	logger := log.SimpleWOFLogger()
 
-	cb := func(ctx context.Context, fh io.ReadSeekCloser, args ...interface{}) error {
+	emitter_cb := func(ctx context.Context, fh io.ReadSeekCloser, args ...interface{}) error {
 
 		path, err := emitter.PathForContext(ctx)
 
@@ -106,7 +106,7 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 	}
 
 	i := SQLiteIndexer{
-		callback:      cb,
+		callback:      emitter_cb,
 		table_timings: table_timings,
 		mu:            mu,
 		Timings:       false,
