@@ -2,7 +2,8 @@ package index
 
 import (
 	"context"
-	wof_index "github.com/whosonfirst/go-whosonfirst-index"
+	"github.com/whosonfirst/go-whosonfirst-index/v2/emitter"	
+	"github.com/whosonfirst/go-whosonfirst-index/v2/indexer"
 	"github.com/whosonfirst/go-whosonfirst-log"
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
 	"io"
@@ -13,10 +14,10 @@ import (
 
 type SQLiteIndexerPostIndexFunc func(context.Context, sqlite.Database, []sqlite.Table, interface{}) error
 
-type SQLiteIndexerLoadRecordFunc func(context.Context, io.Reader, ...interface{}) (interface{}, error)
+type SQLiteIndexerLoadRecordFunc func(context.Context, io.ReadSeekCloser, ...interface{}) (interface{}, error)
 
 type SQLiteIndexer struct {
-	callback      wof_index.IndexerFunc
+	callback      emitter.EmitterCallbackFunc
 	table_timings map[string]time.Duration
 	mu            *sync.RWMutex
 	Timings       bool
@@ -41,9 +42,9 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 
 	logger := log.SimpleWOFLogger()
 
-	cb := func(ctx context.Context, fh io.Reader, args ...interface{}) error {
+	cb := func(ctx context.Context, fh io.ReadSeekCloser, args ...interface{}) error {
 
-		path, err := wof_index.PathForContext(ctx)
+		path, err := emitter.PathForContext(ctx)
 
 		if err != nil {
 			return err
@@ -115,9 +116,9 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 	return &i, nil
 }
 
-func (idx *SQLiteIndexer) IndexPaths(mode string, paths []string) error {
+func (idx *SQLiteIndexer) IndexPaths(ctx context.Context, emitter_uri string, paths []string) error {
 
-	indexer, err := wof_index.NewIndexer(mode, idx.callback)
+	indexer, err := indexer.NewIndexer(ctx, emitter_uri, idx.callback)
 
 	if err != nil {
 		return err
@@ -166,7 +167,7 @@ func (idx *SQLiteIndexer) IndexPaths(mode string, paths []string) error {
 		}()
 	}
 
-	err = indexer.IndexPaths(paths)
+	err = indexer.Index(ctx, paths...)
 
 	if err != nil {
 		return err

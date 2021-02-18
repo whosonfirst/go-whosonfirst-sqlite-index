@@ -4,12 +4,10 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	wof_index "github.com/whosonfirst/go-whosonfirst-index"
-	_ "github.com/whosonfirst/go-whosonfirst-index-csv"
-	_ "github.com/whosonfirst/go-whosonfirst-index-sqlite"
+	"github.com/whosonfirst/go-whosonfirst-index/v2/emitter"
 	"github.com/whosonfirst/go-whosonfirst-log"
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
-	"github.com/whosonfirst/go-whosonfirst-sqlite-index"
+	"github.com/whosonfirst/go-whosonfirst-sqlite-index/v2"
 	"github.com/whosonfirst/go-whosonfirst-sqlite/database"
 	"github.com/whosonfirst/go-whosonfirst-sqlite/tables"
 	"io"
@@ -24,10 +22,10 @@ type Example struct {
 
 func main() {
 
-	valid_modes := strings.Join(wof_index.Modes(), ",")
+	valid_modes := strings.Join(emitter.Schemes(), ",")
 	desc_modes := fmt.Sprintf("The mode to use importing data. Valid modes are: %s.", valid_modes)
 
-	mode := flag.String("mode", "files", desc_modes)
+	emitter_uri := flag.String("emitter-uri", "repo://", desc_modes)
 
 	dsn := flag.String("dsn", ":memory:", "")
 	driver := flag.String("driver", "sqlite3", "")
@@ -71,7 +69,7 @@ func main() {
 
 	to_index = append(to_index, ex)
 
-	record_func := func(ctx context.Context, fh io.Reader, args ...interface{}) (interface{}, error) {
+	record_func := func(ctx context.Context, fh io.ReadSeekCloser, args ...interface{}) (interface{}, error) {
 
 		now := time.Now()
 
@@ -107,10 +105,12 @@ func main() {
 	idx.Timings = *timings
 	idx.Logger = logger
 
-	err = idx.IndexPaths(*mode, flag.Args())
+	ctx := context.Background()
+	
+	err = idx.IndexPaths(ctx, *emitter_uri, flag.Args())
 
 	if err != nil {
-		logger.Fatal("Failed to index paths in %s mode because: %s", *mode, err)
+		logger.Fatal("Failed to index paths in %s mode because: %s", *emitter_uri, err)
 	}
 
 	os.Exit(0)
