@@ -83,6 +83,8 @@ github.com/twpayne/go-geom v1.0.5 h1:XZBfc3Wx0dj4p17ZfmzqxnU9fTTa3pY4YG5RngKsVNI
 github.com/twpayne/go-geom v1.0.5/go.mod h1:gO3i8BeAvZuihwwXcw8dIOWXebCzTmy3uvXj9dZG2RA=
 github.com/twpayne/go-kml v1.0.0/go.mod h1:LlvLIQSfMqYk2O7Nx8vYAbSLv4K9rjMvLlEdUKWdjq0=
 github.com/twpayne/go-polyline v1.0.0/go.mod h1:ICh24bcLYBX8CknfvNPKqoTbe+eg+MX1NPyJmSBo7pU=
+github.com/whosonfirst/go-ioutil v0.0.1 h1:cCrEYen6NDvHfjzV2q4u/VB21u2kTOwDnUGRlMI8Z9o=
+github.com/whosonfirst/go-ioutil v0.0.1/go.mod h1:2dS1vWdAIkiHDvDF8fYyjv6k2NISmwaIjJJeEDBEdvg=
 github.com/whosonfirst/go-reader v0.0.2/go.mod h1:k/U2jXarXsFWC2yh63kYgKIJzTEmc60lN/ipyrdT3W4=
 github.com/whosonfirst/go-reader v0.1.1 h1:0fXoYQR/Yyh3PKk+9Huwoc6dCAt8l1tjg2dEShjqcFI=
 github.com/whosonfirst/go-reader v0.1.1/go.mod h1:w0AeU+Ojyfmxb7r+rcSYyxpCxrhxlHv+D9EgEwQsqcM=
@@ -134,6 +136,8 @@ github.com/whosonfirst/go-whosonfirst-index/v2 v2.0.0 h1:PnPLYvCnBrg7Vvw3ho8tc2l
 github.com/whosonfirst/go-whosonfirst-index/v2 v2.0.0/go.mod h1:BiIcEdIv7W6CZd/sc9m2npVo/rXCVUvWL7dldUb4bu8=
 github.com/whosonfirst/go-whosonfirst-iterate v1.0.0 h1:ioIfP81ovXs1wr2vyickbG9o8DUahmcmJyP9Ih1DAOQ=
 github.com/whosonfirst/go-whosonfirst-iterate v1.0.0/go.mod h1:nxCcHykhwN5E5ropkHetMsi1Gi/Mh2gooK93i02nXsI=
+github.com/whosonfirst/go-whosonfirst-iterate v1.1.1 h1:7J8kq86bZgO2uUEJcSW7ciWTaoMC9k5obFQ90lp7ZpQ=
+github.com/whosonfirst/go-whosonfirst-iterate v1.1.1/go.mod h1:ceLMHQ9s3naZLFcKeUvokP0Sw7/BmwuZJiaQt/mVO0I=
 github.com/whosonfirst/go-whosonfirst-log v0.1.0 h1:mWYI5hn16uyeLxBmPsLSvYV4rQKK/cxGVhM+bC2ZoGc=
 github.com/whosonfirst/go-whosonfirst-log v0.1.0/go.mod h1:pmgBbxZSnjGVy2nsUJBBMcFagxwIKLlmRsW7ClkXmac=
 github.com/whosonfirst/go-whosonfirst-names v0.1.0 h1:uXop/DwQqH60uDBZvHCPg1yRSQLScbm6VZyqcaED2KE=
