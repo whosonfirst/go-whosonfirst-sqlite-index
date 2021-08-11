@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"github.com/whosonfirst/go-whosonfirst-iterate/emitter"
 	"github.com/whosonfirst/go-whosonfirst-log"
-	"github.com/whosonfirst/go-whosonfirst-sqlite"
+	"github.com/aaronland/go-sqlite"
 	"github.com/whosonfirst/go-whosonfirst-sqlite-index"
-	"github.com/whosonfirst/go-whosonfirst-sqlite/database"
-	"github.com/whosonfirst/go-whosonfirst-sqlite/tables"
+	"github.com/aaronland/go-sqlite/database"
+	"github.com/aaronland/go-sqlite/tables"
 	"io"
 	"os"
 	"strings"
@@ -37,12 +37,14 @@ func main() {
 
 	flag.Parse()
 
+	ctx := context.Background()
+	
 	logger := log.SimpleWOFLogger()
 
 	stdout := io.Writer(os.Stdout)
 	logger.AddLogger(stdout, "status")
 
-	db, err := database.NewDBWithDriver(*driver, *dsn)
+	db, err := database.NewDBWithDriver(ctx, *driver, *dsn)
 
 	if err != nil {
 		logger.Fatal("unable to create database (%s) because %s", *dsn, err)
@@ -61,7 +63,7 @@ func main() {
 
 	to_index := make([]sqlite.Table, 0)
 
-	ex, err := tables.NewExampleTableWithDatabase(db)
+	ex, err := tables.NewExampleTableWithDatabase(ctx, db)
 
 	if err != nil {
 		logger.Fatal("failed to create 'example' table because '%s'", err)
@@ -104,8 +106,6 @@ func main() {
 
 	idx.Timings = *timings
 	idx.Logger = logger
-
-	ctx := context.Background()
 
 	err = idx.IndexPaths(ctx, *emitter_uri, flag.Args())
 
