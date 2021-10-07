@@ -9,7 +9,7 @@ import (
 	"github.com/aaronland/go-sqlite/tables"
 	"github.com/whosonfirst/go-whosonfirst-iterate/v2/emitter"
 	"github.com/whosonfirst/go-whosonfirst-log"
-	"github.com/whosonfirst/go-whosonfirst-sqlite-index"
+	"github.com/whosonfirst/go-whosonfirst-sqlite-index/v2"
 	"io"
 	"os"
 	"strings"
@@ -71,7 +71,7 @@ func main() {
 
 	to_index = append(to_index, ex)
 
-	record_func := func(ctx context.Context, fh io.ReadSeeker, args ...interface{}) (interface{}, error) {
+	record_func := func(ctx context.Context, path string, fh io.ReadSeeker, args ...interface{}) (interface{}, error) {
 
 		now := time.Now()
 

@@ -14,7 +14,7 @@ import (
 
 type SQLiteIndexerPostIndexFunc func(context.Context, sqlite.Database, []sqlite.Table, interface{}) error
 
-type SQLiteIndexerLoadRecordFunc func(context.Context, io.ReadSeeker, ...interface{}) (interface{}, error)
+type SQLiteIndexerLoadRecordFunc func(context.Context, string, io.ReadSeeker, ...interface{}) (interface{}, error)
 
 type SQLiteIndexer struct {
 	callback      emitter.EmitterCallbackFunc
@@ -44,7 +44,7 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 
 	emitter_cb := func(ctx context.Context, path string, fh io.ReadSeeker, args ...interface{}) error {
 
-		record, err := record_func(ctx, fh, args...)
+		record, err := record_func(ctx, path, fh, args...)
 
 		if err != nil {
 			logger.Warning("failed to load record (%s) because %s", path, err)
