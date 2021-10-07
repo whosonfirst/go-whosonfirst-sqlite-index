@@ -2,10 +2,10 @@ package index
 
 import (
 	"context"
-	"github.com/whosonfirst/go-whosonfirst-iterate/emitter"
-	"github.com/whosonfirst/go-whosonfirst-iterate/iterator"
-	"github.com/whosonfirst/go-whosonfirst-log"
 	"github.com/aaronland/go-sqlite"
+	"github.com/whosonfirst/go-whosonfirst-iterate/v2/emitter"
+	"github.com/whosonfirst/go-whosonfirst-iterate/v2/iterator"
+	"github.com/whosonfirst/go-whosonfirst-log"
 	"io"
 	"sync"
 	"sync/atomic"
@@ -42,13 +42,7 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 
 	logger := log.SimpleWOFLogger()
 
-	emitter_cb := func(ctx context.Context, fh io.ReadSeeker, args ...interface{}) error {
-
-		path, err := emitter.PathForContext(ctx)
-
-		if err != nil {
-			return err
-		}
+	emitter_cb := func(ctx context.Context, path string, fh io.ReadSeeker, args ...interface{}) error {
 
 		record, err := record_func(ctx, fh, args...)
 

@@ -14,6 +14,8 @@ github.com/aaronland/go-sqlite v0.0.3 h1:pa8L74JdbkmONxqLqMqZFZtHpARHM46JmX1A/hZ
 github.com/aaronland/go-sqlite v0.0.3/go.mod h1:b/FfLh8xBZ1dhjyehPsFli46VhGqWAz2rKR4udvTHJw=
 github.com/aaronland/go-sqlite v0.0.4 h1:14HA5gxnVLZ0W+h0EkXGy+qRfwCMCq4Ne04ejQYyqG0=
 github.com/aaronland/go-sqlite v0.0.4/go.mod h1:b/FfLh8xBZ1dhjyehPsFli46VhGqWAz2rKR4udvTHJw=
+github.com/aaronland/go-sqlite v0.0.5 h1:ak6Ee2AyXIcE+8ZInib2qy4k2NSDIQeZKiL9bEZW6S4=
+github.com/aaronland/go-sqlite v0.0.5/go.mod h1:91mdgKDJ1RXxvXH6RYvBhi2gqCX7TnRCCZThx1ZQx5M=
 github.com/alcortesm/tgz v0.0.0-20161220082320-9c5fe88206d7/go.mod h1:6zEj6s6u/ghQa61ZWa/C2Aw3RkjiTBOix7dkqa1VLIs=
 github.com/andybalholm/cascadia v1.1.0/go.mod h1:GsXiBklL0woXo1j/WYWtSYYC4ouU9PqHO0sqidkEA4Y=
 github.com/anmitsu/go-shlex v0.0.0-20161002113705-648efa622239/go.mod h1:2FmKhYUyUczH0OGQWaF5ceTx0UBShxjsH6f8oGKYe2c=
@@ -68,8 +70,13 @@ github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINE
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/psanford/sqlite3vfs v0.0.0-20210810192024-980beb1874e4 h1:Oun5zFH1CMQCKAS4hWzHX/SaysoOAhOiDqBkKj3n1/w=
 github.com/psanford/sqlite3vfs v0.0.0-20210810192024-980beb1874e4/go.mod h1:4CnLWpNEluUrLmUVLGEvkn0ZSEm9zdZmTtUlKRZp5Ag=
+github.com/psanford/sqlite3vfs v0.0.0-20210815004946-a82d70c653ce/go.mod h1:iW4cSew5PAb1sMZiTEkVJAIBNrepaB6jTYjeP47WtI0=
+github.com/psanford/sqlite3vfs v0.0.0-20210823054414-6197b9fad12f h1:QiyAANPBaECR1F2ejYGIn7zxvLrLPk7bDp2Q9Ha6f34=
+github.com/psanford/sqlite3vfs v0.0.0-20210823054414-6197b9fad12f/go.mod h1:iW4cSew5PAb1sMZiTEkVJAIBNrepaB6jTYjeP47WtI0=
 github.com/psanford/sqlite3vfshttp v0.0.0-20210810192816-7ed3ddba507d h1:KihA6nWlH32n8xWltDBwUWvjWk1vbclEm2TdVUr8g4U=
 github.com/psanford/sqlite3vfshttp v0.0.0-20210810192816-7ed3ddba507d/go.mod h1:hQKK0GFcSapdHKElLpXRFo7SUvriHB22EuK+OQIpkuU=
+github.com/psanford/sqlite3vfshttp v0.0.0-20210815150654-07be1ade312e h1:KH9aXyBtKhgoc3XM7nBS82sN1MLUiw+XJsLBvirBVpU=
+github.com/psanford/sqlite3vfshttp v0.0.0-20210815150654-07be1ade312e/go.mod h1:fgwmd0q/GmamdQOyXby4SM/m6mBk6aTde7uJ5sxkeUA=
 github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
 github.com/shaxbee/go-spatialite v0.0.0-20180425212100-9b4c81899e0e/go.mod h1:tRDdwai9gBsMVwqexZx2+O5F9QY49MxJFo1zlI/MdkU=
 github.com/sirupsen/logrus v1.4.1/go.mod h1:ni0Sbl8bgC9z8RoU9G6nDWqqs/fq4eDPysMBDgk/93Q=
@@ -161,6 +168,8 @@ github.com/whosonfirst/go-whosonfirst-iterate v1.1.1 h1:7J8kq86bZgO2uUEJcSW7ciWT
 github.com/whosonfirst/go-whosonfirst-iterate v1.1.1/go.mod h1:ceLMHQ9s3naZLFcKeUvokP0Sw7/BmwuZJiaQt/mVO0I=
 github.com/whosonfirst/go-whosonfirst-iterate v1.2.0 h1:+wouZy6JPIrmLBZdFDqI1UJWthbpwGc1JRdnLbW6hIc=
 github.com/whosonfirst/go-whosonfirst-iterate v1.2.0/go.mod h1:MOA6QCBONVG98p8kA8HaoBEAmv83jW4SNTfNhHpP9+o=
+github.com/whosonfirst/go-whosonfirst-iterate/v2 v2.0.0 h1:w2N2TfsaGcONmQzR4MMxuDvVpt8DuJnlVeS9Eh5Sffk=
+github.com/whosonfirst/go-whosonfirst-iterate/v2 v2.0.0/go.mod h1:NeChKAgakom3sWjPfTnxauSykSzmkfqnEbtuy6nSF6s=
 github.com/whosonfirst/go-whosonfirst-log v0.1.0 h1:mWYI5hn16uyeLxBmPsLSvYV4rQKK/cxGVhM+bC2ZoGc=
 github.com/whosonfirst/go-whosonfirst-log v0.1.0/go.mod h1:pmgBbxZSnjGVy2nsUJBBMcFagxwIKLlmRsW7ClkXmac=
 github.com/whosonfirst/go-whosonfirst-names v0.1.0 h1:uXop/DwQqH60uDBZvHCPg1yRSQLScbm6VZyqcaED2KE=

@@ -4,12 +4,12 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/whosonfirst/go-whosonfirst-iterate/emitter"
-	"github.com/whosonfirst/go-whosonfirst-log"
 	"github.com/aaronland/go-sqlite"
-	"github.com/whosonfirst/go-whosonfirst-sqlite-index"
 	"github.com/aaronland/go-sqlite/database"
 	"github.com/aaronland/go-sqlite/tables"
+	"github.com/whosonfirst/go-whosonfirst-iterate/v2/emitter"
+	"github.com/whosonfirst/go-whosonfirst-log"
+	"github.com/whosonfirst/go-whosonfirst-sqlite-index"
 	"io"
 	"os"
 	"strings"
@@ -23,7 +23,7 @@ type Example struct {
 func main() {
 
 	valid_modes := strings.Join(emitter.Schemes(), ",")
-	desc_modes := fmt.Sprintf("A valid whosonfirst/go-whosonfirst-iterate/emitter URI. Valid schemes are: %s.", valid_modes)
+	desc_modes := fmt.Sprintf("A valid whosonfirst/go-whosonfirst-iterate/v2 URI. Valid schemes are: %s.", valid_modes)
 
 	emitter_uri := flag.String("emitter-uri", "repo://", desc_modes)
 
@@ -38,7 +38,7 @@ func main() {
 	flag.Parse()
 
 	ctx := context.Background()
-	
+
 	logger := log.SimpleWOFLogger()
 
 	stdout := io.Writer(os.Stdout)
