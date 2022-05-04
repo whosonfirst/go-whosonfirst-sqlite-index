@@ -1,6 +1,6 @@
 # go-whosonfirst-sqlite-index
 
-Go package for creating SQLite databases.
+Go package for indexing SQLite databases.
 
 ## Important
 
