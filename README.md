@@ -1,6 +1,6 @@
 # go-whosonfirst-sqlite-index
 
-Go package for indexing SQLite databases using table constucts defined in the `aaronland/go-sqlite` package and records defined by the `whosonfirst/go-whosonfirst-iterate/v2`
+Go package for indexing SQLite databases using table constucts defined in the `aaronland/go-sqlite` package and records defined by the `whosonfirst/go-whosonfirst-iterate/v2` package.
 
 ## Documentation
 
