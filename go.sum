@@ -18,7 +18,5 @@ github.com/whosonfirst/go-whosonfirst-crawl v0.2.1 h1:nNG7r7/4MaII/NM8Df2oqgfgVN
 github.com/whosonfirst/go-whosonfirst-crawl v0.2.1/go.mod h1:MTD1TCgAkXlAtysPU98ylrz9Y5+ZCfRrsrBnRyiH/t8=
 github.com/whosonfirst/go-whosonfirst-iterate/v2 v2.0.2 h1:IJ4o6/I0+yfedzv/dy3SPENbxibwxil8ve1URPPGKv8=
 github.com/whosonfirst/go-whosonfirst-iterate/v2 v2.0.2/go.mod h1:wkoAmndZ3l67zjUmjzw3Km8OzFt/TTJiVDSrYC8b9XY=
-github.com/whosonfirst/go-whosonfirst-log v0.1.0 h1:mWYI5hn16uyeLxBmPsLSvYV4rQKK/cxGVhM+bC2ZoGc=
-github.com/whosonfirst/go-whosonfirst-log v0.1.0/go.mod h1:pmgBbxZSnjGVy2nsUJBBMcFagxwIKLlmRsW7ClkXmac=
 github.com/whosonfirst/walk v0.0.1 h1:t0QrqGwOdPMSeovFZSXfiS0GIGHrRXK3Wb9z5Uhs2bg=
 github.com/whosonfirst/walk v0.0.1/go.mod h1:1KtP/VeooSlFOI61p+THc/C16Ra8Z5MjpjI0tsd3c1M=

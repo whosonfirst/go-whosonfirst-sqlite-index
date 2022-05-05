@@ -8,9 +8,9 @@ import (
 	"github.com/aaronland/go-sqlite/database"
 	"github.com/aaronland/go-sqlite/tables"
 	"github.com/whosonfirst/go-whosonfirst-iterate/v2/emitter"
-	"github.com/whosonfirst/go-whosonfirst-log"
 	"github.com/whosonfirst/go-whosonfirst-sqlite-index/v2"
 	"io"
+	"log"
 	"os"
 	"strings"
 	"time"
@@ -39,15 +39,10 @@ func main() {
 
 	ctx := context.Background()
 
-	logger := log.SimpleWOFLogger()
-
-	stdout := io.Writer(os.Stdout)
-	logger.AddLogger(stdout, "status")
-
 	db, err := database.NewDBWithDriver(ctx, *driver, *dsn)
 
 	if err != nil {
-		logger.Fatal("unable to create database (%s) because %s", *dsn, err)
+		log.Fatalf("unable to create database (%s) because %s", *dsn, err)
 	}
 
 	defer db.Close()
@@ -57,7 +52,7 @@ func main() {
 		err = db.LiveHardDieFast()
 
 		if err != nil {
-			logger.Fatal("Unable to live hard and die fast so just dying fast instead, because %s", err)
+			log.Fatalf("Unable to live hard and die fast so just dying fast instead, because %s", err)
 		}
 	}
 
@@ -66,7 +61,7 @@ func main() {
 	ex, err := tables.NewExampleTableWithDatabase(ctx, db)
 
 	if err != nil {
-		logger.Fatal("failed to create 'example' table because '%s'", err)
+		log.Fatalf("failed to create 'example' table because '%s'", err)
 	}
 
 	to_index = append(to_index, ex)
@@ -91,7 +86,7 @@ func main() {
 	if *post_index {
 
 		post_func := func(ctx context.Context, db sqlite.Database, tables []sqlite.Table, record interface{}) error {
-			logger.Status("Post index func w/ %v", record)
+			log.Printf("Post index func w/ %v", record)
 			return nil
 		}
 
@@ -101,16 +96,15 @@ func main() {
 	idx, err := index.NewSQLiteIndexer(idx_opts)
 
 	if err != nil {
-		logger.Fatal("failed to create sqlite indexer because %s", err)
+		log.Fatalf("failed to create sqlite indexer because %s", err)
 	}
 
 	idx.Timings = *timings
-	idx.Logger = logger
 
 	err = idx.IndexPaths(ctx, *emitter_uri, flag.Args())
 
 	if err != nil {
-		logger.Fatal("Failed to index paths in %s mode because: %s", *emitter_uri, err)
+		log.Fatalf("Failed to index paths in %s mode because: %s", *emitter_uri, err)
 	}
 
 	os.Exit(0)
