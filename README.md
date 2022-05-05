@@ -1,10 +1,10 @@
 # go-whosonfirst-sqlite-index
 
-Go package for indexing SQLite databases.
+Go package for indexing SQLite databases using table constucts defined in the `aaronland/go-sqlite` package and records defined by the `whosonfirst/go-whosonfirst-iterate/v2`
 
-## Important
+## Documentation
 
-Documentation for this package is incomplete and will be updated shortly.
+[![Go Reference](https://pkg.go.dev/badge/github.com/whosonfirst/go-whosonfirst-sqlite-index.svg)](https://pkg.go.dev/github.com/whosonfirst/go-whosonfirst-sqlite-index)
 
 ## Tools
 
@@ -50,5 +50,5 @@ sqlite> SELECT COUNT(id) FROM example;
 
 ## See also
 
-* https://github.com/whosonfirst/go-whosonfirst-sqlite
+* https://github.com/aaronland/go-sqlite
 * https://github.com/whosonfirst/go-whosonfirst-iterate

@@ -2,6 +2,7 @@ package index
 
 import (
 	"context"
+	"fmt"
 	"github.com/aaronland/go-sqlite"
 	"github.com/aaronland/go-sqlite/database"
 	"github.com/aaronland/go-sqlite/tables"
@@ -46,6 +47,7 @@ func TestIndexing(t *testing.T) {
 			Time: now.Unix(),
 		}
 
+		fmt.Printf("Index %s\n", path)
 		return e, nil
 	}
 
@@ -67,7 +69,7 @@ func TestIndexing(t *testing.T) {
 		t.Fatalf("Failed to get current working directory, %v", err)
 	}
 
-	err = idx.IndexURIs(ctx, "fs://", cwd)
+	err = idx.IndexURIs(ctx, "directory://", cwd)
 
 	if err != nil {
 		t.Fatalf("Failed to index paths, %v", err)
