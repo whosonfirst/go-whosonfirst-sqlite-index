@@ -45,6 +45,7 @@ type SQLiteIndexerOptions struct {
 	PostIndexFunc SQLiteIndexerPostIndexFunc
 }
 
+// NewSQLiteInder returns a `SQLiteIndexer` configured with 'opts'.
 func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 
 	db := opts.DB
@@ -124,6 +125,7 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 	return &i, nil
 }
 
+// IndexPaths is deprecated and has been superseded by the `IndexURIs` method.
 func (idx *SQLiteIndexer) IndexPaths(ctx context.Context, iterator_uri string, uris []string) error {
 	idx.Logger.Println("The IndexPaths method is deprecated. Please use IndexURIs instead.")
 	return idx.IndexURIs(ctx, iterator_uri, uris...)
