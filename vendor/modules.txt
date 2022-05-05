@@ -24,5 +24,10 @@ github.com/whosonfirst/go-whosonfirst-crawl
 github.com/whosonfirst/go-whosonfirst-iterate/v2/emitter
 github.com/whosonfirst/go-whosonfirst-iterate/v2/filters
 github.com/whosonfirst/go-whosonfirst-iterate/v2/iterator
+# github.com/whosonfirst/go-whosonfirst-log v0.1.0
+github.com/whosonfirst/go-whosonfirst-log
+# github.com/whosonfirst/go-whosonfirst-sqlite-index/v2 v2.0.1
+## explicit
+github.com/whosonfirst/go-whosonfirst-sqlite-index/v2
 # github.com/whosonfirst/walk v0.0.1
 github.com/whosonfirst/walk
