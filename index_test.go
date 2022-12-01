@@ -21,7 +21,7 @@ func TestIndexing(t *testing.T) {
 	ctx := context.Background()
 
 	db_uri := "modernc://mem"
-	
+
 	db, err := sqlite.NewDatabase(ctx, db_uri)
 
 	if err != nil {

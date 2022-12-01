@@ -3,8 +3,8 @@ module github.com/whosonfirst/go-whosonfirst-sqlite-index/v4
 go 1.18
 
 require (
-	github.com/aaronland/go-sqlite-modernc v0.0.0-20221201190246-04cdc416205b
-	github.com/aaronland/go-sqlite/v2 v2.1.0
+	github.com/aaronland/go-sqlite-modernc v0.0.1
+	github.com/aaronland/go-sqlite/v2 v2.2.0
 	github.com/whosonfirst/go-whosonfirst-iterate/v2 v2.3.1
 )
 

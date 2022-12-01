@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	_ "github.com/aaronland/go-sqlite-modernc"
 	"github.com/aaronland/go-sqlite/v2"
 	"github.com/aaronland/go-sqlite/v2/tables"
 	"github.com/whosonfirst/go-whosonfirst-iterate/v2/emitter"

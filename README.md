@@ -1,6 +1,6 @@
 # go-whosonfirst-sqlite-index
 
-Go package for indexing SQLite databases using table constucts defined in the `aaronland/go-sqlite` package and records defined by the `whosonfirst/go-whosonfirst-iterate/v2` package.
+Go package for indexing SQLite databases using table constucts defined in the `aaronland/go-sqlite/v2` package and records defined by the `whosonfirst/go-whosonfirst-iterate/v2` package.
 
 ## Documentation
 
@@ -16,14 +16,12 @@ go build -mod vendor -o bin/example cmd/example/main.go
 ### example
 
 ```
-> ./bin/example -h
+$> ./bin/example -h
 Usage of ./bin/example:
-  -driver string
-    	 (default "sqlite3")
-  -dsn string
-    	 (default ":memory:")
+  -database-uri string
+    	 (default "modernc://mem")
   -emitter-uri string
-    	A valid whosonfirst/go-whosonfirst-iterate/emitter URI. Valid schemes are: directory://,featurecollection://,file://,filelist://,geojsonl://,repo://. (default "repo://")
+    	A valid whosonfirst/go-whosonfirst-iterate/v2 URI. Valid schemes are: directory://,featurecollection://,file://,filelist://,geojsonl://,null://,repo://. (default "repo://")
   -live-hard-die-fast
     	Enable various performance-related pragmas at the expense of possible (unlikely) database corruption (default true)
   -post-index
@@ -35,7 +33,7 @@ Usage of ./bin/example:
 For example:
 
 ```
-$> ./bin/example -dsn test.db /usr/local/data/sfomuseum-data-architecture/
+$> ./bin/example -dsn 'modernc://cwd/test.db' /usr/local/data/sfomuseum-data-architecture/
 2021/02/18 11:34:58 time to index paths (1) 403.514656ms
 
 $> sqlite3  test.db 
