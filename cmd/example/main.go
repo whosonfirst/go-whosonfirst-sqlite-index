@@ -4,11 +4,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/aaronland/go-sqlite"
-	"github.com/aaronland/go-sqlite/database"
-	"github.com/aaronland/go-sqlite/tables"
+	_ "github.com/aaronland/go-sqlite-modernc"
+	"github.com/aaronland/go-sqlite/v2"
+	"github.com/aaronland/go-sqlite/v2/tables"
 	"github.com/whosonfirst/go-whosonfirst-iterate/v2/emitter"
-	"github.com/whosonfirst/go-whosonfirst-sqlite-index/v2"
+	"github.com/whosonfirst/go-whosonfirst-sqlite-index/v4"
 	"io"
 	"log"
 	"os"
@@ -27,8 +27,7 @@ func main() {
 
 	emitter_uri := flag.String("emitter-uri", "repo://", desc_modes)
 
-	dsn := flag.String("dsn", ":memory:", "")
-	driver := flag.String("driver", "sqlite3", "")
+	db_uri := flag.String("database-uri", "modernc://mem", "")
 
 	live_hard := flag.Bool("live-hard-die-fast", true, "Enable various performance-related pragmas at the expense of possible (unlikely) database corruption")
 	timings := flag.Bool("timings", false, "Display timings during and after indexing")
@@ -39,17 +38,17 @@ func main() {
 
 	ctx := context.Background()
 
-	db, err := database.NewDBWithDriver(ctx, *driver, *dsn)
+	db, err := sqlite.NewDatabase(ctx, *db_uri)
 
 	if err != nil {
-		log.Fatalf("unable to create database (%s) because %s", *dsn, err)
+		log.Fatalf("unable to create database (%s) because %s", *db_uri, err)
 	}
 
-	defer db.Close()
+	defer db.Close(ctx)
 
 	if *live_hard {
 
-		err = db.LiveHardDieFast()
+		err = sqlite.LiveHardDieFast(ctx, db)
 
 		if err != nil {
 			log.Fatalf("Unable to live hard and die fast so just dying fast instead, because %s", err)
