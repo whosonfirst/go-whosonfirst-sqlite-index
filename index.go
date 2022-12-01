@@ -3,7 +3,7 @@ package index
 import (
 	"context"
 	"fmt"
-	"github.com/aaronland/go-sqlite"
+	"github.com/aaronland/go-sqlite/v2"
 	"github.com/whosonfirst/go-whosonfirst-iterate/v2/emitter"
 	"github.com/whosonfirst/go-whosonfirst-iterate/v2/iterator"
 	"io"
@@ -70,9 +70,8 @@ func NewSQLiteIndexer(opts *SQLiteIndexerOptions) (*SQLiteIndexer, error) {
 			return nil
 		}
 
-		db.Lock()
-
-		defer db.Unlock()
+		db.Lock(ctx)
+		defer db.Unlock(ctx)
 
 		for _, t := range tables {
 

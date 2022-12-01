@@ -3,9 +3,9 @@ package index
 import (
 	"context"
 	"fmt"
-	"github.com/aaronland/go-sqlite"
-	"github.com/aaronland/go-sqlite/database"
-	"github.com/aaronland/go-sqlite/tables"
+	_ "github.com/aaronland/go-sqlite-modernc"
+	"github.com/aaronland/go-sqlite/v2"
+	"github.com/aaronland/go-sqlite/v2/tables"
 	"io"
 	"os"
 	"testing"
@@ -20,16 +20,15 @@ func TestIndexing(t *testing.T) {
 
 	ctx := context.Background()
 
-	engine := "sqlite3"
-	dsn := ":memory:"
-
-	db, err := database.NewDBWithDriver(ctx, engine, dsn)
+	db_uri := "modernc://mem"
+	
+	db, err := sqlite.NewDatabase(ctx, db_uri)
 
 	if err != nil {
-		t.Fatalf("Unable to create database (%s) because %v", dsn, err)
+		t.Fatalf("Unable to create database (%s) because %v", db_uri, err)
 	}
 
-	defer db.Close()
+	defer db.Close(ctx)
 
 	ex_t, err := tables.NewExampleTableWithDatabase(ctx, db)
 
