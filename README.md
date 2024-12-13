@@ -2,6 +2,10 @@
 
 Go package for indexing SQLite databases using table constucts defined in the `aaronland/go-sqlite/v2` package and records defined by the `whosonfirst/go-whosonfirst-iterate/v2` package.
 
+## Deprecation notice (December 2024)
+
+This package has been deprecated. It has been superseded by the [whosonfirst/go-whosonfirst-database](https://github.com/whosonfirst/go-whosonfirst-database) package.
+
 ## Documentation
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/whosonfirst/go-whosonfirst-sqlite-index.svg)](https://pkg.go.dev/github.com/whosonfirst/go-whosonfirst-sqlite-index)
